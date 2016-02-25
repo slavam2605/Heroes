@@ -15,19 +15,21 @@ import static java.lang.Math.*;
  */
 public class AStar {
 
-    private static List<Point> portals;
-    private static WorldGrid currentGrid;
+    private List<Point> portals;
+    private WorldGrid worldGrid;
+    private int w;
+    private int h;
 
-    private static float grid_h(Point from, Point to) {
+    private float grid_h(Point from, Point to) {
         int Δx = abs(from.x - to.x);
         int Δy = abs(from.y - to.y);
         return 0.414213562f * min(Δx, Δy) + max(Δx, Δy);
     }
 
-    private static float h(Point from, Point to) {
+    private float h(Point from, Point to) {
         float straight = grid_h(from, to);
         for (Point portal: portals) {
-            float port = grid_h(from, portal) + grid_h(((Portal) currentGrid.getCell(portal.x, portal.y).getObject()).getDest(), to);
+            float port = grid_h(from, portal) + grid_h(((Portal) worldGrid.getCell(portal.x, portal.y).getObject()).getDest(), to);
             if (port < straight) {
                 straight = port;
             }
@@ -35,11 +37,10 @@ public class AStar {
         return straight;
     }
 
-    public static List<Point> findPath(WorldGrid worldGrid, Point from, Point to) {
-        int w = worldGrid.getW();
-        int h = worldGrid.getH();
-        // initialize static variables
-        currentGrid = worldGrid;
+    public AStar(WorldGrid worldGrid) {
+        this.worldGrid = worldGrid;
+        w = worldGrid.getW();
+        h = worldGrid.getH();
         // find all portals on map
         portals = new ArrayList<>();
         for (int i = 0; i < w; i++) {
@@ -50,6 +51,9 @@ public class AStar {
                 }
             }
         }
+    }
+
+    public List<Point> findPath(Point from, Point to) {
         boolean[][] used = new boolean[w][h];
         float[][] g = new float[w][h];
         float[][] f = new float[w][h];
@@ -74,7 +78,7 @@ public class AStar {
                     if (worldGrid.getCell(current.x + i, current.y + j).getType().moveCost == CellType.OBSTACLE_COST) {
                         continue;
                     }
-                    performEdge(d(worldGrid, current, i, j), to, used, g, f, parent, Q, current, i, j);
+                    performEdge(d(current, i, j), to, used, g, f, parent, Q, current, i, j);
                 }
             }
             WorldObject currentObject = worldGrid.getCell(current.x, current.y).getObject();
@@ -86,7 +90,7 @@ public class AStar {
         return null;
     }
 
-    private static void performEdge(float d, Point to, boolean[][] used, float[][] g, float[][] f, Point[][] parent, PriorityQueue<Point> q, Point current, int i, int j) {
+    private void performEdge(float d, Point to, boolean[][] used, float[][] g, float[][] f, Point[][] parent, PriorityQueue<Point> q, Point current, int i, int j) {
         float newLength = g[current.x][current.y] + d;
         if (!used[current.x + i][current.y + j] || newLength < g[current.x + i][current.y + j]) {
             parent[current.x + i][current.y + j] = current;
@@ -99,7 +103,7 @@ public class AStar {
         }
     }
 
-    private static float d(WorldGrid worldGrid, Point current, int i, int j) {
+    private float d(Point current, int i, int j) {
         return 0.5f * (
                 worldGrid.getCell(current.x, current.y).getType().moveCost
                         +

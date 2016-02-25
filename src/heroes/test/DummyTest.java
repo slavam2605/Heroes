@@ -70,7 +70,7 @@ public class DummyTest extends JPanel {
                 }
             }
         }
-        List<Point> list = AStar.findPath(worldGrid, new Point(4, 4), new Point(9, 9));
+        List<Point> list = new AStar(worldGrid).findPath(new Point(4, 4), new Point(9, 9));
         if (list == null) {
             return;
         }

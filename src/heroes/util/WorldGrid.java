@@ -5,6 +5,7 @@ package heroes.util;
  */
 public class WorldGrid {
     private Cell[][] a;
+    private Town[] towns;
     private int w;
     private int h;
 
