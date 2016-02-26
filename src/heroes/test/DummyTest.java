@@ -3,6 +3,8 @@ package heroes.test;
 import java.util.List;
 
 import heroes.algorithm.AStar;
+import heroes.engine.EngineState;
+import heroes.engine.StateKind;
 import heroes.util.*;
 import heroes.util.Point;
 import heroes.world.objects.Portal;
@@ -18,10 +20,11 @@ public class DummyTest extends JPanel {
     private static final int gridW = 10;
     private static final int gridH = 10;
 
-    private WorldGrid worldGrid;
+    private GameState gameState;
+    private EngineState engineState;
 
     public void start() {
-        worldGrid = new WorldGrid(gridW, gridH);
+        WorldGrid worldGrid = new WorldGrid(gridW, gridH);
         for (int i = 0; i < gridW; i++) {
             for (int j = 0; j < gridH; j++) {
                 worldGrid.setCell(i, j, new Cell(CellType.GROUND));
@@ -38,6 +41,12 @@ public class DummyTest extends JPanel {
 
         worldGrid.getCell(4, 0).emplaceObject(new Portal(new Point(8, 7)));
 
+        Hero hero1 = new Hero(10, 0, "Lalka", new Point(2, 2));
+        Player player1 = new Player(10, 10, 5, 10_000, new Hero[] {hero1}, 1, "Player 1", worldGrid);
+        gameState = new GameState(worldGrid, new Player[] {player1}, null);
+        engineState = new EngineState();
+
+
         setPreferredSize(new Dimension(cellSize * gridW, cellSize * gridH));
         JFrame frame = new JFrame("Heroes");
         frame.add(this);
@@ -52,25 +61,25 @@ public class DummyTest extends JPanel {
     protected void paintComponent(Graphics g) {
         g.clearRect(0, 0, getWidth(), getHeight());
         g.setColor(Color.BLACK);
-        for (int i = 0; i < worldGrid.getW(); i++) {
-            for (int j = 0; j < worldGrid.getH(); j++) {
+        for (int i = 0; i < gameState.getWorldGrid().getW(); i++) {
+            for (int j = 0; j < gameState.getWorldGrid().getH(); j++) {
                 g.drawRect(cellSize * i, cellSize * j, cellSize, cellSize);
-                if (worldGrid.getCell(i, j).getType().moveCost > 1) {
+                if (gameState.getWorldGrid().getCell(i, j).getType().moveCost > 1) {
                     g.setColor(new Color(150, 150, 150));
                     g.fillRect(cellSize * i, cellSize * j, cellSize, cellSize);
                     g.setColor(Color.BLACK);
                 }
-                if (worldGrid.getCell(i, j).getType().moveCost > 10) {
+                if (gameState.getWorldGrid().getCell(i, j).getType().moveCost > 10) {
                     g.fillRect(cellSize * i, cellSize * j, cellSize, cellSize);
                 }
-                if (worldGrid.getCell(i, j).getObject() != null && worldGrid.getCell(i, j).getObject().getType() == WorldObjectType.PORTAL) {
+                if (gameState.getWorldGrid().getCell(i, j).getObject() != null && gameState.getWorldGrid().getCell(i, j).getObject().getType() == WorldObjectType.PORTAL) {
                     g.setColor(new Color(0, 150, 255));
                     g.fillRect(cellSize * i, cellSize * j, cellSize, cellSize);
                     g.setColor(Color.BLACK);
                 }
             }
         }
-        List<Point> list = new AStar(worldGrid).findPath(new Point(4, 4), new Point(9, 9));
+        List<Point> list = new AStar(gameState.getWorldGrid()).findPath(new Point(4, 4), new Point(9, 9));
         if (list == null) {
             return;
         }
