@@ -1,7 +1,7 @@
-package heroes.algorithm;
+package heroes.game.algorithm;
 
-import heroes.util.*;
-import heroes.world.objects.Portal;
+import heroes.game.util.*;
+import heroes.game.world.objects.Portal;
 
 import java.util.ArrayList;
 import java.util.Collections;

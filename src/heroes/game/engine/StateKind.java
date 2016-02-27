@@ -1,4 +1,4 @@
-package heroes.engine;
+package heroes.game.engine;
 
 /**
  * @author Моклев Вячеслав

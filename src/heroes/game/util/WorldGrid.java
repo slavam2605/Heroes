@@ -1,4 +1,4 @@
-package heroes.util;
+package heroes.game.util;
 
 /**
  * @author Моклев Вячеслав

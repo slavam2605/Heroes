@@ -1,8 +1,8 @@
-package heroes.world.objects;
+package heroes.game.world.objects;
 
-import heroes.util.Point;
-import heroes.util.WorldObject;
-import heroes.util.WorldObjectType;
+import heroes.game.util.Point;
+import heroes.game.util.WorldObject;
+import heroes.game.util.WorldObjectType;
 
 /**
  * @author Моклев Вячеслав
