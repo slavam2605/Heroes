@@ -10,9 +10,14 @@ public class KeyAction {
     private int action;
     private int keyCode;
 
-    public KeyAction(int action, boolean pressed) {
+    public KeyAction(int keyCode, boolean pressed) {
+        this.keyCode = keyCode;
+        action = pressed ? PRESSED : RELEASED;
+    }
+
+    public KeyAction(int keyCode, int action) {
+        this.keyCode = keyCode;
         this.action = action;
-        keyCode = pressed ? PRESSED : RELEASED;
     }
 
     public int getAction() {

@@ -20,6 +20,15 @@ public class Point {
         return new Point(x + dx, y + dy);
     }
 
+    public void set(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public boolean inRectangle(int x, int y, int w, int h) {
+        return this.x >= x && this.x < x + w && this.y >= y && this.y < y + h;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

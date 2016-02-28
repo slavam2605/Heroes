@@ -1,7 +1,9 @@
 package heroes.ui.base;
 
 import heroes.game.util.Point;
+import heroes.ui.event.KeyAction;
 import heroes.ui.event.KeyListener;
+import heroes.ui.event.MouseAction;
 import heroes.ui.event.MouseListener;
 
 import java.util.ArrayList;
@@ -43,6 +45,26 @@ public abstract class Component {
     public void setSize(Point p) {
         width = p.x;
         height = p.y;
+    }
+
+    public void performAction(MouseAction mouseAction) {
+        for (MouseListener listener: mouseListeners) {
+            listener.performAction(mouseAction);
+        }
+    }
+
+    public void performAction(KeyAction keyAction) {
+        for (KeyListener listener: keyListeners) {
+            listener.performAction(keyAction);
+        }
+    }
+
+    public int getKeyActionMask() {
+        return keyActionMask;
+    }
+
+    public int getMouseActionMask() {
+        return mouseActionMask;
     }
 
     public void setVisible(boolean visible) {

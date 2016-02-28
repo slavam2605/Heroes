@@ -1,21 +1,23 @@
 package heroes.ui.base;
 
+import heroes.ui.util.HoldingPanel;
+
 import java.awt.image.BufferedImage;
 
 /**
  * @author Моклев Вячеслав
  */
 public abstract class SwingComponent extends Component {
-    private BufferedImage bf;
+    private HoldingPanel hp;
 
-    public SwingComponent(int x, int y, int width, int height, BufferedImage bf) {
+    public SwingComponent(int x, int y, int width, int height, HoldingPanel hp) {
         super(x, y, width, height);
-        this.bf = bf;
+        this.hp = hp;
     }
 
     @Override
     public void paintComponent() {
-        paintComponent(bf);
+        paintComponent(hp.getBf());
     }
 
     public abstract void paintComponent(BufferedImage bf);
