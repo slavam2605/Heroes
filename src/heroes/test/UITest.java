@@ -1,5 +1,6 @@
 package heroes.test;
 
+import heroes.game.global.GlobalState;
 import heroes.game.util.*;
 import heroes.game.world.objects.Portal;
 import heroes.ui.impl.SwingButton;
@@ -34,11 +35,14 @@ public class UITest {
 
         worldGrid.getCell(4, 0).emplaceObject(new Portal(new heroes.game.util.Point(8, 7)));
 
+        GameState gameState = new GameState(worldGrid, new Player[] {new Player(0, 0, 0, 0, new Hero[] {null}, 0, "kek", worldGrid)}, null);
+        GlobalState.setGameState(gameState);
+
         // --------------------------------------------------------------------
 
         JFrame frame = new JFrame("Heroes");
         HoldingPanel panel = new HoldingPanel(15 * 50, 10 * 50);
-        panel.add(new SwingGrid(worldGrid, panel));
+        panel.add(new SwingGrid(panel));
         frame.add(panel);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();

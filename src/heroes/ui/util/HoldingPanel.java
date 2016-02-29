@@ -23,6 +23,7 @@ public class HoldingPanel extends JPanel {
         layout = new ArrayList<>();
         bf = new BufferedImage(w, h, BufferedImage.TYPE_4BYTE_ABGR);
         setPreferredSize(new Dimension(w, h));
+        setFocusable(true);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -79,6 +80,8 @@ public class HoldingPanel extends JPanel {
                         component.performAction(new KeyAction(e.getKeyCode(), action));
                     }
                 }
+                // TODO lol wut
+                repaint();
             }
 
             @Override
