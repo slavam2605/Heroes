@@ -2,6 +2,7 @@ package heroes.test;
 
 import heroes.game.global.GlobalState;
 import heroes.game.util.*;
+import heroes.game.util.Point;
 import heroes.game.world.objects.Portal;
 import heroes.ui.impl.SwingButton;
 import heroes.ui.impl.SwingGrid;
@@ -33,9 +34,10 @@ public class UITest {
         worldGrid.setCell(4, 5, new Cell(CellType.OBSTACLE));
         worldGrid.setCell(3, 5, new Cell(CellType.OBSTACLE));
 
-        worldGrid.getCell(4, 0).emplaceObject(new Portal(new heroes.game.util.Point(8, 7)));
+        worldGrid.getCell(4, 0).emplaceObject(new Portal(new Point(8, 7)));
 
-        GameState gameState = new GameState(worldGrid, new Player[] {new Player(0, 0, 0, 0, new Hero[] {null}, 0, "kek", worldGrid)}, null);
+        Hero hero = new Hero(10, 0, "lel", new Point(1, 1));
+        GameState gameState = new GameState(worldGrid, new Player[] {new Player(0, 0, 0, 0, new Hero[] {hero}, 0, "kek", worldGrid)}, null);
         GlobalState.setGameState(gameState);
 
         // --------------------------------------------------------------------

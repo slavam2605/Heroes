@@ -4,12 +4,13 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Моклев Вячеслав
  */
 public class IconStorage {
-    private static HashMap<String, BufferedImage> images;
+    private static Map<String, BufferedImage> images;
 
     static {
         images = new HashMap<>();

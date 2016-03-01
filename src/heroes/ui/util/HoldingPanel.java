@@ -62,7 +62,7 @@ public class HoldingPanel extends JPanel {
                 for (SwingComponent component: layout) {
                     if (mousePoint.inRectangle(component.getX(), component.getY(), component.getWidth(), component.getHeight())) {
                         if ((component.getMouseActionMask() & MouseAction.MOUSE_MOVE) != 0) {
-                            component.performAction(new MouseAction(1 << (e.getButton() - 1), e.getX() - component.getX(), e.getY() - component.getY()));
+                            component.performAction(new MouseAction(MouseAction.MOUSE_MOVE, e.getX() - component.getX(), e.getY() - component.getY()));
                         }
                         component.setActive(true);
                     } else {
