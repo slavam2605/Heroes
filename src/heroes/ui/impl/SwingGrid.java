@@ -5,6 +5,7 @@ import heroes.game.global.GlobalState;
 import heroes.game.util.Hero;
 import heroes.game.util.Point;
 import heroes.game.util.WorldGrid;
+import heroes.game.util.WorldObject;
 import heroes.storage.IconStorage;
 import heroes.ui.base.SwingComponent;
 import heroes.ui.event.KeyAction;
@@ -48,7 +49,7 @@ public class SwingGrid extends SwingComponent {
             }
         });
         mouseListeners.add(ma -> {
-            if ((ma.getAction() & MouseAction.MOUSE_DOWN) != 0){
+            if ((ma.getAction() & MouseAction.MOUSE_DOWN) != 0) {
                 Hero currentHero = GlobalState.getGameState().getCurrentHero();
                 if (currentHero == null) return;
                 List<Point> list = currentHero.getPath();
@@ -103,7 +104,10 @@ public class SwingGrid extends SwingComponent {
         for (int i = 0; i < gridW; i++) {
             for (int j = 0; j < gridH; j++) {
                 g.drawImage(IconStorage.get(worldGrid.getCell(i + cx, j + cy).getType().texture), i * cellSize, j * cellSize, cellSize, cellSize, null);
-
+                WorldObject object = worldGrid.getCell(i + cx, j + cy).getObject();
+                if (object != null) {
+                    g.drawImage(IconStorage.get(object.getType().texture), i * cellSize, j * cellSize, cellSize, cellSize, null);
+                }
             }
         }
         g.setFont(new Font("Times New Roman", Font.PLAIN, cellSize));
@@ -127,7 +131,6 @@ public class SwingGrid extends SwingComponent {
                 bf.getRaster().setPixel(mi * cellSize + dx, mj * cellSize + dy, pixel);
             }
         }
-
         Hero currentHero = GlobalState.getGameState().getCurrentHero();
         List<Point> list = currentHero.getPath();
         if (list != null) {
